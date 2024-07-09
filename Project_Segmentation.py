@@ -10,11 +10,11 @@ from ultralytics.engine.results import Results
 from ultralytics.utils import DEFAULT_CFG, ops
 
 # Input
-input_folder = r"C:\ML\KOCRv8\kssp_polebridge\kssp_polebridge\input"
+input_folder = r"C:\ML\Project_Automate_YOLOv8\Process_and_Results\Input_And_Detect\input"
 model_folder = r"C:\ML\KOCRv8\model_pt"
 
 # Parameters
-save_to_project = r'C:\ML\KOCRv8\kssp_polebridge\kssp_polebridge\detect'
+save_to_project = r'C:\ML\Project_Automate_YOLOv8\Process_and_Results\Input_And_Detect\detect'
 name_new_folder = r'Predict_Image'
 v_save = True
 v_conf = 0.70
