@@ -1,0 +1,5 @@
+db_server = ''
+db_database = ''
+db_username = ''
+db_password = ''
+sys_info = ''
