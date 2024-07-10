@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import time
 import pyodbc
-from DatabaseConnect import db_server, db_database, db_username, db_password, sys_info
+from DatabaseConnect import db_server, db_database, db_username, db_password, sys_info # Secret
 from collections import Counter
 from ultralytics.engine.predictor import BasePredictor
 from ultralytics.engine.results import Results
@@ -19,11 +19,11 @@ name_new_folder = r'Predict_Image'
 v_save = True
 v_conf = 0.70
 v_iou = 0.45 
-v_exite = True # สำหรับ save รูปภาพทำนายผลทั้งหมดไว้ในโฟลเดอร์เดียว
-image_size = (896,1024)
+v_exite = True # For saving all prediction images in one folder.
+image_size = (640,640)
 source_path = Path(input_folder)
 
-# ฟังก์ชันสำหรับอ่านค่ารูปแบบ infinity loop จาก folder
+# Function for reading infinite loop format values ​​from a folder.
 def read_images(input_folder):
     while True:
         if os.path.exists(input_folder):
@@ -46,7 +46,7 @@ def read_images(input_folder):
             print("This folder doesn't actually exist.")
             break
 
-# ฟังก์ชันสำหรับเลือกโมเดลจากฐานข้อมูล อ้างอิงจาก cctv ทำนายผลและลบรูป
+# Function for selecting models from a database based on CCTV cameras, predicting results, and deleting images.
 def choose_model(cctv_id, image_path, source_name):
     try:
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+db_server+';DATABASE='+db_database+';UID='+db_username+';PWD='+ db_password)
@@ -81,7 +81,7 @@ def choose_model(cctv_id, image_path, source_name):
         os.remove(image_path)
         print("Remove unpredictable images")
 
-# ฟังก์ชันสำหรับหาโมเดลที่ชื่อตรงกับค่าที่ดึงมาจากฐานข้อมูล
+# Function for finding models whose names match values ​​retrieved from the database.
 def find_model_file(model_param_code, model_folder):
     for root, dirs, files in os.walk(model_folder):
         for file in files:
@@ -89,7 +89,7 @@ def find_model_file(model_param_code, model_folder):
                 return os.path.join(root, file)
     return None
 
-# คลาสสำหรับทำนายผลภาพและทำการต่อสตริงเพื่อยิงเข้าฐานข้อมูล
+# Class for predicting image results and concatenate strings to enter the database.
 class DetectionPredictorDB(BasePredictor):
     def __init__(self, overrides=None, cctv_id=None, source_name=None):
         super().__init__(overrides=overrides)
@@ -145,16 +145,16 @@ class DetectionPredictorDB(BasePredictor):
                     NEXT VALUE FOR OTRANS_SEQ, '{self.cctv_id}', '{source_path}', '{self.source_name}', '{sys_info}', {otrans_classes_num}, {trans_detects_All}
                 )
                 """
-            print(otran_sqlstr) # สามารถลบได้หากไม่ต้องการแสดง str (ทำให้ช้าขึ้นหากแสดงใน Terminal แต่แนะนำสำหรับการตรวจค่า (Test))
-            #cursor.execute(otran_sqlstr)
-            #cnxn.commit()
+            #print(otran_sqlstr) # for test
+            cursor.execute(otran_sqlstr)
+            cnxn.commit()
 
             results.append(Results(orig_img, path=img_path, names=self.model.names, boxes=pred))
         cursor.close()
         cnxn.close()
         return results 
 
-# ฟังก์ชันสำหรับเรียกและส่งค่าพารามิเตอร์เข้าคลาสการทำนายผล
+# Functions for retrieving and passing parameters to prediction classes.
 def predict_loop(model_kocr, image_path, cctv_id, source_name):
     args = dict(model=model_kocr, conf=v_conf, iou=v_iou, source=image_path, save=v_save, project=save_to_project, name=name_new_folder, exist_ok=v_exite, imgsz=image_size)
     predictor = DetectionPredictorDB(overrides=args, cctv_id=cctv_id, source_name=source_name)
