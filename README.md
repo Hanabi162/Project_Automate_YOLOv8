@@ -14,9 +14,9 @@ This project utilizes YOLOv8 for object detection and prediction in images. It r
 
 2. **Run the Prediction Script:**
     ```bash
-    Project_Detection.py
+    Project_Detection.py # For Bouding Box
     or
-    Project_Segmentation.py
+    Project_Segmentation.py # For Seegmentation
     ```
 
 3. **Database Configuration:** Ensure that the database connection details are configured correctly. Note that the database connection details are not shown in the script for security reasons.
