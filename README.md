@@ -48,11 +48,11 @@
 - To start processing images with bounding box detection, run:
   ```bash
   '''
-  Detection.py
+  Project_Detection.py
   '''
 - To Start processing image with segmentation, run:
    ```bash
   '''
-  Segmentaion.py
+  Project_Segmentaion.py
   '''
   
