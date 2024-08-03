@@ -38,11 +38,14 @@ This project utilizes YOLOv8 for object detection and prediction. YOLOv8 is a st
 
 3. **Check Results:** The predicted results will be saved in the output folder.
 
-# Configuration
+## Configuration
 - **Model Path:** Path to the YOLOv8 model file.
 - **Source Path:** Path to the folder containing images for prediction.
 - **Output Path:** Path where the results will be saved.
 - **Database Details:** Configure your SQL Server connection in `DatabaseConnect.py`.
+
+## Additional Information
+- **Counting Detected Objects:** The `Counter` class from Python's `collections` module is used to count the number of objects detected of each class. This helps in aggregating and managing detection results efficiently.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
