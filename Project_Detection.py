@@ -7,13 +7,15 @@ from collections import Counter
 from ultralytics.engine.predictor import BasePredictor
 from ultralytics.engine.results import Results
 from ultralytics.utils import ops
+# I don't want to show the database connection details in this script on GitHub
+
 
 # Input
-input_folder = r"C:\ML\Project_Automate_YOLOv8\Process_and_Results\Input_And_Detect\input"
-model_folder = r"C:\ML\KOCRv8\model_pt"
+input_folder = r"C:\input"
+model_folder = r"C:\model_pt"
 
 # Parameters
-save_to_project = r'C:\ML\Project_Automate_YOLOv8\Process_and_Results\Input_And_Detect\detect'
+save_to_project = r'C:\Process_and_Results\Input_And_Detect\detect'
 name_new_folder = r'Predict_Image'
 v_save = True
 v_conf = 0.70
@@ -48,22 +50,21 @@ def read_images(input_folder):
 # Function for selecting models from a database based on CCTV cameras, predicting results, and deleting images.
 def choose_model(cctv_id, image_path, source_name):
     try:
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+db_server+';DATABASE='+db_database+';UID='+db_username+';PWD='+ db_password)
+        cnxn = pyodbc.connect(# Do Not Show Connection Details)
         cursor = cnxn.cursor()
 
-        query = """SELECT m.[mm_param_code] FROM [dbo].[ocr_system_param] s
-        JOIN [dbo].[ocr_ml_model_param] m ON s.[sys_val_int] = m.[mm_code]
-        WHERE s.[sys_param_code] = ?""" 
-        cursor.execute(query, cctv_id)
+        query = """SELECT model name from database"""
+        # Query to retrieve model parameter code from the database based on system parameters
 
+        cursor.execute(query, cctv_id)
         model_param = cursor.fetchone()
 
         if model_param:
             model_param_code = model_param[0]
-            model_kocr = find_model_file(model_param_code, model_folder)
+            model_ocr = find_model_file(model_param_code, model_folder)
             print(f"CCTV-ID: {cctv_id} Model Requirements (from Database): {model_param_code}")
-            print(f"Model Actually (from files): {model_kocr}") #[22:]
-            predict_loop(model_kocr, image_path, cctv_id, source_name)
+            print(f"Model Actually (from files): {model_ocr}") 
+            predict_loop(model_ocr, image_path, cctv_id, source_name)
             os.remove(image_path)
             print("Predicting success and deleting predictions")
 
@@ -116,13 +117,9 @@ class DetectionPredictorDB(BasePredictor):
             pred[:, :4] = ops.scale_boxes(img.shape[2:], pred[:, :4], orig_img.shape)
             img_path = self.batch[0][i]
             if len(pred) == 0: 
-                otran_sqlstr = f"""
-                INSERT INTO OCR_TRANSACTIONS (
-                    otrans_id, otrans_cctv_id, otrans_source_path, otrans_source_name, otrans_sys_info, otrans_detects
-                ) VALUES (
-                    NEXT VALUE FOR OTRANS_SEQ, '{self.cctv_id}', '{source_path}', '{self.source_name}', '{sys_info}', 0
-                )
-                """
+                otran_sqlstr = "Not showing string concatenation"
+                # Construct the SQL query to insert transaction data, with detection count set to 0
+
             else: 
                 class_set_index = set()
                 for clsi in pred[:, 5]: 
@@ -137,13 +134,9 @@ class DetectionPredictorDB(BasePredictor):
                 otrans_classes_num = ', '.join(map(str, counts_list))
                 trans_detects_All = sum(counts_list)
 
-                otran_sqlstr = f"""
-                INSERT INTO OCR_TRANSACTIONS (
-                    otrans_id, otrans_cctv_id, otrans_source_path, otrans_source_name, otrans_sys_info, {otrans_classes_idx_str}, otrans_detects
-                ) VALUES (
-                    NEXT VALUE FOR OTRANS_SEQ, '{self.cctv_id}', '{source_path}', '{self.source_name}', '{sys_info}', {otrans_classes_num}, {trans_detects_All}
-                )
-                """
+                otran_sqlstr = "Not showing string concatenation"
+                # Constructs SQL query to insert transaction data, including detection class counts and total detections
+
             #print(otran_sqlstr) # for test
             cursor.execute(otran_sqlstr)
             cnxn.commit()
@@ -154,8 +147,8 @@ class DetectionPredictorDB(BasePredictor):
         return results 
 
 # Functions for retrieving and passing parameters to prediction classes.
-def predict_loop(model_kocr, image_path, cctv_id, source_name):
-    args = dict(model=model_kocr, conf=v_conf, iou=v_iou, source=image_path, save=v_save, project=save_to_project, name=name_new_folder, exist_ok=v_exite, imgsz=image_size)
+def predict_loop(model_ocr, image_path, cctv_id, source_name):
+    args = dict(model=model_ocr, conf=v_conf, iou=v_iou, source=image_path, save=v_save, project=save_to_project, name=name_new_folder, exist_ok=v_exite, imgsz=image_size)
     predictor = DetectionPredictorDB(overrides=args, cctv_id=cctv_id, source_name=source_name)
     predictor.predict_cli()
 
