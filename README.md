@@ -12,7 +12,9 @@ This project utilizes YOLOv8 for object detection and prediction. YOLOv8 is a st
 - Python 3.x
 - PyTorch
 - YOLOv8 library
-- Other dependencies (e.g., `opencv-python`, `numpy`, etc.)
+- pyodbc (for database connectivity)
+- OpenCV
+- numpy
 
 ## Installation
 1. Clone this repository:
@@ -38,10 +40,11 @@ This project utilizes YOLOv8 for object detection and prediction. YOLOv8 is a st
 
 3. **Check Results:** The predicted results will be saved in the output folder.
 
-## Configuration
+# Configuration
 - **Model Path:** Path to the YOLOv8 model file.
 - **Source Path:** Path to the folder containing images for prediction.
 - **Output Path:** Path where the results will be saved.
+- **Database Details:** Configure your SQL Server connection in `DatabaseConnect.py`.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
