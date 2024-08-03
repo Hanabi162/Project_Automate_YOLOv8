@@ -28,7 +28,7 @@
 - **Description:** Processes images to detect bounding boxes using YOLO models and saves results to a database.
 - **Functions:**
   - **read_images(input_folder):** Continuously reads images from the input folder and processes them.
-  - **choose_model(cctv_id, image_path, source_name):** Finds the appropriate YOLO model name from the database using the CCTV ID and passes this name to find_model_file to locate the corresponding model file in the model folder.
+  - **choose_model(cctv_id, image_path, source_name):** Finds the appropriate YOLO model name from the database using the CCTV ID and passes this name to `find_model_file` to locate the corresponding model file in the model folder.
   - **find_model_file(model_param_code, model_folder):** Searches for the YOLO model file in the specified model folder based on the model parameter code retrieved from the database.
   - **predict_loop(model_ocr, image_path, cctv_id, source_name):** Executes predictions using the selected model and parameters.
 - **Class:**
@@ -38,7 +38,7 @@
 - **Description:** Processes images to perform segmentation tasks using YOLO models and saves results to a database.
 - **Functions:**
   - **read_images(input_folder):** Continuously reads images from the input folder and processes them.
-  - **choose_model(cctv_id, image_path, source_name):** Finds the appropriate YOLO model name from the database using the CCTV ID and passes this name to find_model_file to locate the corresponding model file in the model folder.
+  - **choose_model(cctv_id, image_path, source_name):** Finds the appropriate YOLO model name from the database using the CCTV ID and passes this name to `find_model_file` to locate the corresponding model file in the model folder.
   - **find_model_file(model_param_code, model_folder):** Searches for the YOLO model file in the specified model folder based on the model parameter code retrieved from the database.
   - **predict_loop(model_ocr, image_path, cctv_id, source_name):** Executes predictions using the selected model and parameters.
 - **Class:**
@@ -47,8 +47,8 @@
 ### Example Usage
 - To start processing images with bounding box detection, run:
   ```bash
-  Project_Detection.py
-- To Start processing image with segmentation, run:
+  python  Project_Detection.py
+- To start processing images with segmentation, run:
    ```bash
-  Project_Segmentaion.py
+  python Project_Segmentaion.py
   
