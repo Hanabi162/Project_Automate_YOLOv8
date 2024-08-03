@@ -43,11 +43,5 @@ This project utilizes YOLOv8 for object detection and prediction. YOLOv8 is a st
 - **Source Path:** Path to the folder containing images for prediction.
 - **Output Path:** Path where the results will be saved.
 
-## Contributing
-Feel free to contribute by submitting issues or pull requests.
-
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-For any questions or suggestions, please contact [Your Name] at [Your Email].
