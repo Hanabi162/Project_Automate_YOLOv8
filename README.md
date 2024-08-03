@@ -1,24 +1,58 @@
-# YOLOv8 Predictor
+## README
 
-## Overview
-This project utilizes YOLOv8 for object detection and prediction in images. It reads images from a specified input folder, uses the YOLOv8 model for detection, and saves the results to an output folder. Additionally, the results are stored in a SQL Server database.
+### Overview
+- This project consists of two scripts for image processing using YOLO models: one for bounding box detection and another for segmentation tasks. Both scripts perform predictions on images from a specified folder and save the results to a database. The models used are selected based on CCTV camera IDs stored in a database.
 
-## Features
-- **Object Detection:** Detects objects in images using YOLOv8.
-- **Model Selection:** Chooses the appropriate model based on the CCTV ID from the database.
-- **Database Integration:** Saves detection results to a SQL Server database.
-- **Image Management:** Handles image input and output efficiently.
+### Prerequisites
+- Python 3.x
+- ultralytics library
+- pyodbc library
+- Other dependencies (install via pip)
 
-## Details
-- **YOLOv8 Model:** Utilized for detecting objects in images with customizable parameters.
-- **Database Integration:** Retrieves model parameters from a SQL Server database and inserts detection results into the database.
-- **Image Handling:** Processes images from an input directory, runs predictions, and saves results to a specified output directory.
-- **Counting Detected Classes:** Uses Python's `collections.Counter` to count and manage the number of detected objects of each class.
+### Input
+- **Input Folder:** C:\input (Folder containing images to be processed)
+- **Model Folder:** C:\model_pt (Folder containing YOLO model files)
 
-## Code Explanation
-- **Database Connection:** The connection details are kept confidential and are not displayed in the script.
-- **SQL Queries:** Constructed SQL queries are not shown for security reasons but are used to insert detection results and manage image data.
-- **String Concatenation:** The script builds SQL queries dynamically based on detection results, but these details are not explicitly shown.
+### Parameters
+- **save_to_project:** Directory to save prediction results.
+- **name_new_folder:** Subdirectory name for saving images.
+- **v_save:** Boolean flag to save prediction images.
+- **v_conf:** Confidence threshold for predictions (0.70).
+- **v_iou:** IoU threshold for non-max suppression (0.45).
+- **v_exite:** Boolean flag for saving all predictions in one folder.
+- **image_size:** Size of the images for YOLO (640x640).
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+### Scripts
+
+#### 1. Bounding Box Detection
+- **Description:** Processes images to detect bounding boxes using YOLO models and saves results to a database.
+- **Functions:**
+  - **read_images(input_folder):** Continuously reads images from the input folder and processes them.
+  - **choose_model(cctv_id, image_path, source_name):** Selects the appropriate YOLO model based on CCTV ID from the database, performs prediction, and deletes the image after processing.
+  - **find_model_file(model_param_code, model_folder):** Finds the YOLO model file based on the model parameter code.
+  - **predict_loop(model_ocr, image_path, cctv_id, source_name):** Executes predictions using the selected model and parameters.
+- **Class:**
+  - **DetectionPredictorDB:** Custom YOLO predictor class that processes predictions and saves results to the database.
+
+#### 2. Segmentation
+- **Description:** Processes images to perform segmentation tasks using YOLO models and saves results to a database.
+- **Functions:**
+  - **read_images(input_folder):** Continuously reads images from the input folder and processes them.
+  - **choose_model(cctv_id, image_path, source_name):** Selects the appropriate YOLO model based on CCTV ID from the database, performs prediction, and deletes the image after processing.
+  - **find_model_file(model_param_code, model_folder):** Finds the YOLO model file based on the model parameter code.
+  - **predict_loop(model_ocr, image_path, cctv_id, source_name):** Executes predictions using the selected model and parameters.
+- **Class:**
+  - **SegmentationPredictorDB:** Custom YOLO predictor class for segmentation that processes predictions, applies masks, and saves results to the database.
+
+### Example Usage
+- To start processing images with bounding box detection, run:
+  ```bash
+  '''
+  Detection.py
+  '''
+- To Start processing image with segmentation, run:
+   ```bash
+  '''
+  Segmentaion.py
+  '''
+  
