@@ -47,7 +47,7 @@
 ### Example Usage
 - To start processing images with bounding box detection, run:
   ```bash
-  python  Project_Detection.py
+  python Project_Detection.py
 - To start processing images with segmentation, run:
    ```bash
   python Project_Segmentaion.py
