@@ -9,7 +9,6 @@ from ultralytics.engine.results import Results
 from ultralytics.utils import ops
 # I don't want to show the database connection details in this script on GitHub
 
-
 # Input
 input_folder = r"C:\input"
 model_folder = r"C:\model_pt"
