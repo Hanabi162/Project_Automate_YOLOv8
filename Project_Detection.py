@@ -49,7 +49,7 @@ def read_images(input_folder):
 # Function for selecting models from a database based on CCTV cameras, predicting results, and deleting images.
 def choose_model(cctv_id, image_path, source_name):
     try:
-        cnxn = pyodbc.connect(# Do Not Show Connection Details)
+        cnxn = pyodbc.connect('Do Not Show Connection Details')
         cursor = cnxn.cursor()
 
         query = """SELECT model name from database"""
@@ -109,7 +109,7 @@ class DetectionPredictorDB(BasePredictor):
             orig_imgs = ops.convert_torch2numpy_batch(orig_imgs)
 
         results = []
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+db_server+';DATABASE='+db_database+';UID='+db_username+';PWD='+ db_password)
+        cnxn = pyodbc.connect('Do Not Show Connection Details')
         cursor = cnxn.cursor()
         for i, pred in enumerate(preds):
             orig_img = orig_imgs[i]
