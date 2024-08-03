@@ -9,20 +9,6 @@ This project utilizes YOLOv8 for object detection and prediction in images. It r
 - **Database Integration:** Saves detection results to a SQL Server database.
 - **Image Management:** Handles image input and output efficiently.
 
-## Usage
-1. **Prepare Your Images:** Place your images in the designated input folder.
-
-2. **Run the Prediction Script:**
-    ```bash
-    Project_Detection.py # For Bouding Box
-    or
-    Project_Segmentation.py # For Seegmentation
-    ```
-
-3. **Database Configuration:** Ensure that the database connection details are configured correctly. Note that the database connection details are not shown in the script for security reasons.
-
-4. **Check Results:** Predicted images will be saved in the output folder, and detection results will be recorded in the database.
-
 ## Details
 - **YOLOv8 Model:** Utilized for detecting objects in images with customizable parameters.
 - **Database Integration:** Retrieves model parameters from a SQL Server database and inserts detection results into the database.
