@@ -13,8 +13,6 @@ This project utilizes YOLOv8 for object detection and prediction. YOLOv8 is a st
 - PyTorch
 - YOLOv8 library
 - pyodbc (for database connectivity)
-- OpenCV
-- numpy
 
 ## Installation
 1. Clone this repository:
