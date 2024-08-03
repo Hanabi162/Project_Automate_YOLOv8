@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 import time
 import pyodbc
-from DatabaseConnect import db_server, db_database, db_username, db_password, sys_info # Secret
 from collections import Counter
 from ultralytics.engine.predictor import BasePredictor
 from ultralytics.engine.results import Results
